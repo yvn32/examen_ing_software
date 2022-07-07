@@ -1,0 +1,128 @@
+{% extends "plantilla.html" %}
+{% load static %}
+{% block content %}
+    
+    <section class="container-fluid">
+        <div>
+            <h1 class="w-100" style="text-align: center; margin-bottom: 25px; margin-top: 20px;">Inventario MasterBikes</h1>
+        </div>
+    </section>
+
+    <section>
+      <div class="container" style="margin-bottom: 20px;">
+        <div class="row align-items-center">
+          <div class="col">
+            <label class="mr-sm-2" for="inlineFormCustomSelect" style="margin: 5px;">Tipo de inventario</label>
+            <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+              <option value="1">Venta</option>
+              <option value="2">Arriendo</option>
+            </select>
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <label for="exampleFormControlInput1" style="margin: 5px;">Id producto</label>
+              <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Id de producto">
+            </div>
+          </div>
+          <div class="col">
+            <label class="mr-sm-2" for="inlineFormCustomSelect" style="margin-bottom: 5px;">Línea de producto</label>
+            <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+              <option value="1">Bicicleta urbana</option>
+              <option value="2">Bicicleta de montaña</option>
+              <option value="3">Bicicleta de ciclismo</option>
+              <option value="3">Bicicleta infantil</option>
+            </select>
+          </div>
+          <div class="col">
+            <label class="mr-sm-2" for="inlineFormCustomSelect" style="margin-bottom: 5px;">Proveedor</label>
+            <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+              <option value="1">MasterBikes</option>
+              <option value="2">MKR Imports</option>
+              <option value="3">Bike Protekt</option>
+              <option value="4">Pedalcity</option>
+              <option value="5">Bianchi</option>
+              <option value="6">Trek</option>
+              <option value="7">Oxford</option>
+            </select>
+          </div>
+          <div class="col">
+            <label class="mr-sm-2" for="inlineFormCustomSelect" style="margin-bottom: 5px;">Estado producto</label>
+            <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+              <option value="1">Disponible</option>
+              <option value="2">En reparación</option>
+              <option value="3">Arrendado</option>
+            </select>
+          </div>
+          <div class="col">
+            <div class="col-auto my-1">
+              <button type="submit" class="btn" style="color: white; background-color: grey;">Consultar</button>
+            </div>
+          </div>
+        </div>
+      </div>      
+    </section>
+
+    <section class="container-fluid" style="padding: 20px;">
+        <div class="table-responsive">
+            <table class="table table-sm">
+                <thead>
+                <tr>
+                    <th scope="col">Id prod.</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Descripción</th>
+                    <th scope="col">Marca</th>
+                    <th scope="col">Tipo</th>
+                    <th scope="col">Stock</th>
+                    <th scope="col">Precio compra</th>
+                    <th scope="col">Precio venta</th>
+                    <th scope="col">Precio promocional</th>
+                    <th scope="col">Id proveedor</th>
+                    <th scope="col">Última recepción</th>
+                    <th scope="col">Próxima compra</th>
+                    <th scope="col">
+                        <a href="/agregarProductoVenta">
+                          <button type="button" class="btn btn-success" style="background-color: orange; border-color: orange;"><i class="fa-solid fa-square-plus"></i></button>
+                      </a>
+                    </th>
+                    <th scope="col"></th>
+
+                </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                    {% for e in inventarioVenta %}
+                    <tr>
+                        <th scope="row">{{e.id}}</th>
+                        <td>{{e.nombre}}</td>
+                        <td>{{e.descripcion}}</td>
+                        <td>{{e.marca}}</td>
+                        <td>{{e.tipo}}</td>
+                        {% if e.stock < 1 %}
+                        <td style="color: red; font-weight: bold;">{{e.stock}}</td>
+                        {% else %}
+                        <td>{{e.stock}}</td>
+                        {% endif %}
+                        <td>${{e.precioCompra}}</td>
+                        <td>${{e.precioVenta}}</td>
+                        <td>${{e.precioVentaProm}}</td>
+                        <td>{{e.idProveedor}}</td>
+                        <td>{{e.fecRecepcion}}</td>
+                        <td>{{e.fecProxCompra}}</td>
+                        <td>
+                            <a href="/eliminarProductoVenta/{{e.id}}">
+                                <button type="button" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></button>
+                            </a>
+                        </td>
+                        <td>
+                          <a href="/editarProductoVenta/{{e.id}}">
+                            <button type="button" class="btn btn-success"><i class="fa-solid fa-pen-to-square"></i></button>
+                        </a>
+                      </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+
+    {% endblock %}
